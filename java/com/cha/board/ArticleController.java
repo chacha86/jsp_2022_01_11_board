@@ -20,7 +20,9 @@ public class ArticleController extends HttpServlet {
 		
 		response.setCharacterEncoding("utf-8"); 
 		response.setContentType("text/html; charset=utf-8"); 
-
+		System.out.println("공통코드 실행");
+		
+		
 		String uri = request.getRequestURI();
 		String[] uriPieces = uri.split("/");
 
@@ -39,20 +41,54 @@ public class ArticleController extends HttpServlet {
 
 			// 주소록 추가
 			db.insertArticle(title, body, nickname);
-			list(request, response);
-
+			
+			
+			// 포워드 => 요청 정보를 재사용. url 안바뀜
+			// 리다이렉트 => 새로운 요청을 보냄. url 바꿈.
+			//list(request, response); // 추가 후 목록페이지 보여주기 -> 포워딩 방식은 아닌걸로..
+			
+			response.sendRedirect("/article/list");
+			
 		} else if (func.equals("list")) {
 			list(request, response);
 
+		} else if(func.equals("showAddForm")) {
+			RequestDispatcher rd = request.getRequestDispatcher("/addForm.jsp");
+			rd.forward(request, response);
 		}
 	}
 
 	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ArrayList<Article> articleList = db.getArticleList();
 		request.setAttribute("articleList", articleList);
-
-		RequestDispatcher rd = request.getRequestDispatcher("/list.jsp");
-		rd.forward(request, response);
+		
+		// 경로 -> url
+		
+		// 프로토콜://서버주소:포트번호/서버패스/자원명
+		//   - http://localhost:9000/web-board/list.jsp
+		// root -> 서버 path
+		//   - http://localhost:9000/web-board => root
+		
+		// 현재 url -> http://localhost:9000/article/list
+		// list.jsp -> 현재 경로 기준
+		//   - http://localhost:9000/article/list/list.jsp
+		// /list.jsp -> root 경로 기준
+	//   - http://localhost:9000/list.jsp
+		
+		forward(request, response, "/list.jsp");
 	}
 
+	private void forward(HttpServletRequest request, HttpServletResponse response, String path) {
+				
+		try {			
+			RequestDispatcher rd = request.getRequestDispatcher(path);
+			rd.forward(request, response);
+			
+		} catch(Exception e) {
+			System.out.println("포워딩 중 문제 발생");
+			
+		}
+			
+	}
+	
 }
