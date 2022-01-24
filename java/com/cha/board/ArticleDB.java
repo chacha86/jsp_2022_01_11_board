@@ -26,8 +26,8 @@ public class ArticleDB {
 		return conn;
 	}
 
-	public ArrayList<Article> getArticleList() {
-		String sql = "SELECT * FROM article";
+	public ArrayList<Article> getArticleList(String sql) {
+		
 		Connection conn = getConnection();
 
 		ArrayList<Article> articleList = new ArrayList<>();
@@ -55,6 +55,28 @@ public class ArticleDB {
 		return articleList;
 	}
 
+	public ArrayList<Article> getAllArticles() {
+		String sql = "SELECT * FROM article";
+		ArrayList<Article> articles = getArticleList(sql);
+		
+		return articles;
+		
+	}
+	
+	public Article getArticleByIdx(int idx) {
+		Article article = null;
+		
+		String sql = String.format("SELECT * FROM article WHERE idx = %d", idx);		
+		ArrayList<Article> articles = getArticleList(sql);
+		
+		if(articles.size() > 0) {
+			article = articles.get(0); 
+		}
+		
+		return article;
+		
+	}
+	
 	public void insertArticle(String title, String body, String nickname) {
 
 		String sql = String.format(

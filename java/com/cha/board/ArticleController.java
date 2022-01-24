@@ -55,11 +55,16 @@ public class ArticleController extends HttpServlet {
 		} else if(func.equals("showAddForm")) {
 			RequestDispatcher rd = request.getRequestDispatcher("/addForm.jsp");
 			rd.forward(request, response);
+		} else if(func.equals("detail")) {
+			
+			Article article = db.getArticleByIdx(2);
+			request.setAttribute("article", article);
+			forward(request, response, "/detail.jsp");			
 		}
 	}
 
 	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<Article> articleList = db.getArticleList();
+		ArrayList<Article> articleList = db.getAllArticles();
 		request.setAttribute("articleList", articleList);
 		
 		// 경로 -> url
@@ -75,7 +80,8 @@ public class ArticleController extends HttpServlet {
 		// /list.jsp -> root 경로 기준
 	//   - http://localhost:9000/list.jsp
 		
-		forward(request, response, "/list.jsp");
+		//forward(request, response, "/list.jsp");
+		response.sendRedirect("/article/list");
 	}
 
 	private void forward(HttpServletRequest request, HttpServletResponse response, String path) {
