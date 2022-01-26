@@ -57,10 +57,29 @@ public class ArticleController extends HttpServlet {
 			rd.forward(request, response);
 		} else if(func.equals("detail")) {
 			
-			Article article = db.getArticleByIdx(2);
+			int idx = Integer.parseInt(request.getParameter("idx"));
+			
+			Article article = db.getArticleByIdx(idx);
 			request.setAttribute("article", article);
-			forward(request, response, "/detail.jsp");			
+			forward(request, response, "/detail.jsp");
+			
+		} else if(func.equals("update")) {
+			
+			int idx = Integer.parseInt(request.getParameter("idx"));
+			String title = request.getParameter("title");
+			String body = request.getParameter("body");
+			
+			db.updateArticle(idx, title, body);
+			response.sendRedirect("/article/detail?idx=" + idx);
+			
+		} else if(func.equals("showUpdateForm")) {
+			
+			int idx = Integer.parseInt(request.getParameter("idx"));
+			Article article = db.getArticleByIdx(idx);		
+			request.setAttribute("article", article);			
+			forward(request, response, "/updateForm.jsp");
 		}
+		
 	}
 
 	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -80,8 +99,8 @@ public class ArticleController extends HttpServlet {
 		// /list.jsp -> root 경로 기준
 	//   - http://localhost:9000/list.jsp
 		
-		//forward(request, response, "/list.jsp");
-		response.sendRedirect("/article/list");
+		forward(request, response, "/list.jsp");
+		//response.sendRedirect("/article/list");
 	}
 
 	private void forward(HttpServletRequest request, HttpServletResponse response, String path) {

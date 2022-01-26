@@ -25,6 +25,11 @@
             작성일 : ${ article.regDate }
         </div>
     </div>
-
+    <hr>
+    <div> 
+        <a href="/article/showUpdateForm?idx=${ article.idx }">수정</a> 
+        <a href="#">삭제</a>
+    </div>
+    <hr>    
 </body>
 </html>

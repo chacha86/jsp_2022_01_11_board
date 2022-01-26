@@ -15,7 +15,7 @@
 <c:forEach items="${articleList}" var="article">
     <div>
         번호 : ${ article.idx } <br/>
-        제목 : ${ article.title }<br/> 
+        <a href="/article/detail?idx=${ article.idx }">제목 : ${ article.title }</a><br/> 
         작성자 : ${ article.nickname }<br/>
         작성일 : ${ article.regDate }<br/>
     </div>

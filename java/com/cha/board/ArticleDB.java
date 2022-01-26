@@ -77,11 +77,7 @@ public class ArticleDB {
 		
 	}
 	
-	public void insertArticle(String title, String body, String nickname) {
-
-		String sql = String.format(
-				"INSERT INTO article SET `title` = '%s', body = '%s', nickname = '%s', regDate = NOW()", title, body,
-				nickname);
+	public void updateQuery(String sql) {
 		Connection conn = getConnection();
 		Statement stmt = null;
 
@@ -92,5 +88,17 @@ public class ArticleDB {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void insertArticle(String title, String body, String nickname) {
+		String sql = String.format(
+				"INSERT INTO article SET `title` = '%s', body = '%s', nickname = '%s', regDate = NOW()", title, body,
+				nickname);
+		updateQuery(sql);
+	}		
+
+	public void updateArticle(int idx, String title, String body) {
+		String sql = String.format("UPDATE article SET title = '%s', `body` = '%s' WHERE idx = %d", title, body, idx);
+		updateQuery(sql);
 	}
 }
