@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>게시물 수정</h1>
-    <form action="http://localhost:9000/article/update">
+    <form action="http://localhost:9000/article/update" method="POST">
         <div>
             제목 : <input type="text" name="title" value="${ article.title }"><br />
             내용 : <input type="text" name="body" value="${ article.body }"><br />

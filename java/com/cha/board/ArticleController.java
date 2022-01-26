@@ -15,15 +15,17 @@ public class ArticleController extends HttpServlet {
 
 	ArticleDB db = new ArticleDB();
 	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	
+	
+	
+	@Override
+	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		response.setCharacterEncoding("utf-8"); 
-		response.setContentType("text/html; charset=utf-8"); 
+		resp.setCharacterEncoding("utf-8"); 
+		resp.setContentType("text/html; charset=utf-8"); 
 		System.out.println("공통코드 실행");
 		
-		
-		String uri = request.getRequestURI();
+		String uri = req.getRequestURI();
 		String[] uriPieces = uri.split("/");
 
 		if (uriPieces.length < 3) {
@@ -32,22 +34,35 @@ public class ArticleController extends HttpServlet {
 		}
 
 		String func = uriPieces[2];
-
+		String method = req.getMethod(); // POST, GET 
+		
+		req.setAttribute("func", func);
+		
+		if(method.equals("POST")) {
+			postProcess(req, resp);
+			
+		} else if(method.equals("GET")) {
+			getProcess(req, resp);
+		}
+		
+	}
+	
+	private void postProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String func = (String)request.getAttribute("func");
+		
+		if (func.equals("add")) {
+			doAdd(request, response);
+		}
+	}
+	
+	private void getProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String func = (String)request.getAttribute("func");
+		
 		if (func.equals("add")) {
 
-			String title = request.getParameter("title");
-			String body = request.getParameter("body");
-			String nickname = request.getParameter("nickname");
-
-			// 주소록 추가
-			db.insertArticle(title, body, nickname);
-			
-			
-			// 포워드 => 요청 정보를 재사용. url 안바뀜
-			// 리다이렉트 => 새로운 요청을 보냄. url 바꿈.
-			//list(request, response); // 추가 후 목록페이지 보여주기 -> 포워딩 방식은 아닌걸로..
-			
-			response.sendRedirect("/article/list");
+			doAdd(request, response);
 			
 		} else if (func.equals("list")) {
 			list(request, response);
@@ -79,7 +94,22 @@ public class ArticleController extends HttpServlet {
 			request.setAttribute("article", article);			
 			forward(request, response, "/updateForm.jsp");
 		}
+	}
+
+	private void doAdd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String title = request.getParameter("title");
+		String body = request.getParameter("body");
+		String nickname = request.getParameter("nickname");
+
+		// 주소록 추가
+		db.insertArticle(title, body, nickname);
 		
+		
+		// 포워드 => 요청 정보를 재사용. url 안바뀜
+		// 리다이렉트 => 새로운 요청을 보냄. url 바꿈.
+		list(request, response); // 추가 후 목록페이지 보여주기 -> 포워딩 방식은 아닌걸로..
+		
+		//response.sendRedirect("/article/list");
 	}
 
 	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
