@@ -15,12 +15,10 @@ public class ArticleController extends HttpServlet {
 
 	ArticleDB db = new ArticleDB();
 	
-	
-	
-	
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8"); 
 		resp.setContentType("text/html; charset=utf-8"); 
 		System.out.println("공통코드 실행");
@@ -53,6 +51,22 @@ public class ArticleController extends HttpServlet {
 		
 		if (func.equals("add")) {
 			doAdd(request, response);
+			
+		} else if(func.equals("update")) {
+			
+			int idx = Integer.parseInt(request.getParameter("idx"));
+			String title = request.getParameter("title");
+			String body = request.getParameter("body");
+			
+			db.updateArticle(idx, title, body);
+			response.sendRedirect("/article/detail?idx=" + idx);
+			
+		} else if(func.equals("delete")) {
+			
+			int idx = Integer.parseInt(request.getParameter("idx"));
+			db.deleteArticle(idx);
+			
+			response.sendRedirect("/article/list");			
 		}
 	}
 	
@@ -77,15 +91,6 @@ public class ArticleController extends HttpServlet {
 			Article article = db.getArticleByIdx(idx);
 			request.setAttribute("article", article);
 			forward(request, response, "/detail.jsp");
-			
-		} else if(func.equals("update")) {
-			
-			int idx = Integer.parseInt(request.getParameter("idx"));
-			String title = request.getParameter("title");
-			String body = request.getParameter("body");
-			
-			db.updateArticle(idx, title, body);
-			response.sendRedirect("/article/detail?idx=" + idx);
 			
 		} else if(func.equals("showUpdateForm")) {
 			

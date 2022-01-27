@@ -101,4 +101,9 @@ public class ArticleDB {
 		String sql = String.format("UPDATE article SET title = '%s', `body` = '%s' WHERE idx = %d", title, body, idx);
 		updateQuery(sql);
 	}
+
+	public void deleteArticle(int idx) {
+		String sql = String.format("DELETE FROM article WHERE idx = %d", idx);
+		updateQuery(sql);
+	}
 }
