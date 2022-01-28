@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/member/*")
+@WebServlet("*.do")
 public class MemberController extends HttpServlet {
 
 	MemberDB db = new MemberDB();
@@ -49,7 +49,7 @@ public class MemberController extends HttpServlet {
 
 		String func = (String) request.getAttribute("func");
 
-		if (func.equals("add")) {
+		if (func.equals("add.do")) {
 			//
 			String loginId = request.getParameter("loginId");
 			String loginPw = request.getParameter("loginPw");
@@ -58,7 +58,25 @@ public class MemberController extends HttpServlet {
 			db.insertMember(loginId, loginPw, nickname);
 			
 			response.sendRedirect("/article/list");
-		} 
+			
+		} else if(func.equals("login.do")) {
+			
+			String loginId = request.getParameter("loginId");
+			String loginPw = request.getParameter("loginPw");
+			
+			int idx = db.getMemberIdxByLoginInfo(loginId, loginPw);
+			
+			if(idx != 0) {
+				// 로그인 처리
+				Member member = db.getMemberByIdx(idx);
+				System.out.println("성공");
+			} else {
+				// 로그인 실패 처리
+				System.out.println("실패");
+			}
+			
+			
+		}
 	}
 
 	private void getProcess(HttpServletRequest request, HttpServletResponse response)
