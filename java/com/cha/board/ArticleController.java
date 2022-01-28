@@ -79,6 +79,7 @@ public class ArticleController extends HttpServlet {
 			doAdd(request, response);
 			
 		} else if (func.equals("list")) {
+			System.out.println("bb");
 			list(request, response);
 
 		} else if(func.equals("showAddForm")) {

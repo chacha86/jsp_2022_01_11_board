@@ -1,6 +1,7 @@
 package com.cha.board;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 public class MemberController extends HttpServlet {
 
 	MemberDB db = new MemberDB();
+	ArticleDB adb = new ArticleDB();
 	
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -69,21 +71,34 @@ public class MemberController extends HttpServlet {
 			if(idx != 0) {
 				// 로그인 처리
 				Member member = db.getMemberByIdx(idx);
-				System.out.println("성공");
+				ArrayList<Article> articles = adb.getAllArticles();
+				
+				request.setAttribute("loginedUserName", member.getNickname());
+				request.setAttribute("articleList", articles);
+				
+				forward(request, response, "/list.jsp");
+				
+				// 게시물 목록으로 간다. -> forwading?? redirecting??
+				
 			} else {
 				// 로그인 실패 처리
 				System.out.println("실패");
 			}
-			
-			
-		}
+		} 
 	}
 
 	private void getProcess(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		String func = (String) request.getAttribute("func");
-
+		
+		if(func.equals("showLoginForm.do")) {
+			forward(request, response, "/member/loginForm.jsp");
+			
+		} else if(func.equals("logout.do")) {
+			// 로그아웃 처리
+			response.sendRedirect("/article/list");
+		}
 	}
 	private void forward(HttpServletRequest request, HttpServletResponse response, String path) {
 		

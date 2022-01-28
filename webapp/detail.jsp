@@ -8,6 +8,17 @@
 </head>
 <body>
     <h1>게시물 상세</h1>
+    <hr>
+    <c:choose>
+        <c:when test="${ loginedUserName == null }">
+            <a href="/member/showLoginForm.do">로그인</a>
+        </c:when>
+        <c:otherwise>
+            ${ loginedUserName }님 안녕하세요!
+            <a href="/member/logout.do">로그아웃</a>
+        </c:otherwise>
+    </c:choose>
+    <hr>
     <div>
     	<div>
             번호 : ${ article.idx }
