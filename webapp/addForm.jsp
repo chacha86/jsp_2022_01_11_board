@@ -8,6 +8,7 @@
 </head>
 <body>
     <h1>게시물 등록</h1>
+    <%@ include file="header.jspf" %>
     <form action="http://localhost:9000/article/add" method="POST">
         <div>
             제목 : <input type="text" name="title"><br />

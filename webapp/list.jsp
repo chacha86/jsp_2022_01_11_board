@@ -12,19 +12,8 @@
     
     <c:if test="${ popupYn == null}">
         <h2>팝업창이 뜹니다.</h2>
-    </c:if>
-    
-    <hr>
-    <c:choose>
-        <c:when test="${ loginedUserName == null }">
-            <a href="/member/showLoginForm.do">로그인</a>
-        </c:when>
-        <c:otherwise>
-            ${ loginedUserName }님 안녕하세요!
-            <a href="/member/logout.do">로그아웃</a>
-        </c:otherwise>
-    </c:choose>
-    <hr>
+    </c:if>    
+    <%@ include file="header.jspf" %>
     <c:forEach items="${articleList}" var="article">
         <div>
             번호 : ${ article.idx } <br/>
