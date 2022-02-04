@@ -1,12 +1,12 @@
 package com.cha.board;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -73,7 +73,7 @@ public class MemberController extends HttpServlet {
 			if(idx != 0) {
 				// 로그인 처리
 				Member member = db.getMemberByIdx(idx);
-				ArrayList<Article> articles = adb.getAllArticles();
+				//ArrayList<Article> articles = adb.getAllArticles();
 				
 				// request는 데이터 유지가 힘들다.
 				//request.setAttribute("loginedUserName", member.getNickname());
@@ -82,9 +82,30 @@ public class MemberController extends HttpServlet {
 				// session 저장소에 저장하도록 한다.
 				HttpSession session = request.getSession();
 				session.setAttribute("loginedUserName", member.getNickname());
-				session.setAttribute("articleList", articles);
+				//session.setAttribute("articleList", articles);
 				
-				forward(request, response, "/list.jsp");
+				//ServletContext application = request.getServletContext();
+				//application.setAttribute("loginedUserName", member.getNickname());
+				//application.setAttribute("articleList", articles);
+				
+				//forward(request, response, "/list.jsp");
+				
+				// 쿠키 추가
+				// 쿠키 기본 패스 => /member/login.do
+				Cookie popupCookie = new Cookie("popupYn", "true");
+				
+				// 쿠키 옵션
+				// 1. path				
+				popupCookie.setPath("/");
+				
+				// 2. 만료 날짜
+				popupCookie.setMaxAge(60 * 60 * 24 * 3); // 3일간 쿠키 유지				
+				
+				// 3. 도메인 -> m.naver.com, news.naver.com, naver.com ...
+				// popupCookie.setDomain("m.naver.com");
+				
+				response.addCookie(popupCookie);
+				response.sendRedirect("/article/list");
 				
 				// 게시물 목록으로 간다. -> forwading?? redirecting??
 				

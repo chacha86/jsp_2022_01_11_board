@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,8 +15,7 @@
             <a href="/member/showLoginForm.do">로그인</a>
         </c:when>
         <c:otherwise>
-            <% session.getAttribute("loginedUserName"); %>
-            ${ applicationScope.loginedUserName }님 안녕하세요!
+            ${ loginedUserName }님 안녕하세요!
             <a href="/member/logout.do">로그아웃</a>
         </c:otherwise>
     </c:choose>

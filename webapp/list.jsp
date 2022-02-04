@@ -9,6 +9,11 @@
 </head>
 <body>
     <h1>게시물 목록</h1>
+    
+    <c:if test="${ popupYn == null}">
+        <h2>팝업창이 뜹니다.</h2>
+    </c:if>
+    
     <hr>
     <c:choose>
         <c:when test="${ loginedUserName == null }">
