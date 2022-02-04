@@ -19,11 +19,6 @@ public class ArticleController extends HttpServlet {
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		req.setCharacterEncoding("utf-8");
-		resp.setCharacterEncoding("utf-8"); 
-		resp.setContentType("text/html; charset=utf-8"); 
-		System.out.println("공통코드 실행");
-		
 		String uri = req.getRequestURI();
 		String[] uriPieces = uri.split("/");
 
@@ -84,9 +79,14 @@ public class ArticleController extends HttpServlet {
 			list(request, response);
 
 		} else if(func.equals("showAddForm")) {
+			
+			// 로그인한 사람에게만 보여주는 코드
+			
 			RequestDispatcher rd = request.getRequestDispatcher("/addForm.jsp");
 			rd.forward(request, response);
 		} else if(func.equals("detail")) {
+			
+			// 로그인한 사람에게만 보여주는 코드
 			
 			int idx = Integer.parseInt(request.getParameter("idx"));
 			

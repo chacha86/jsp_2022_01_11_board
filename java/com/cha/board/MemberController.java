@@ -21,11 +21,6 @@ public class MemberController extends HttpServlet {
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		req.setCharacterEncoding("utf-8");
-		resp.setCharacterEncoding("utf-8");
-		resp.setContentType("text/html; charset=utf-8");
-		System.out.println("공통코드 실행");
-
 		String uri = req.getRequestURI();
 		String[] uriPieces = uri.split("/");
 
