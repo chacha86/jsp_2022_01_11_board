@@ -40,5 +40,25 @@
         
     </div>
     <hr>    
+    <h3>댓글</h3>
+    <c:forEach items="${ replies }" var="reply">
+        <div>
+            ${ reply.nickname } <br />
+            ${ reply.body } <br />
+            ${ reply.regDate } <br />
+        </div>
+        <hr>
+    </c:forEach>
+    <hr>
+    <div>
+        <form action="/article/addReply" method="post">
+            ${ loginedUserName }<br />
+            <input type="text" name="body" placeholder="댓글을 남겨보세요" />
+            <input type="hidden" name="articleIdx" value="${ article.idx }" />
+            <input type="hidden" name="nickname" value="${ loginedUserName }" />
+            <input type="submit" value="등록" />
+        </form>
+    </div>
+    <hr>    
 </body>
 </html>

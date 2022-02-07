@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class ArticleDB {
+public class ReplyDB {
 	String url = "jdbc:mysql://localhost:3306/b1?serverTimezone=UTC";
 	String user = "root";
 	String pass = "";
@@ -25,12 +25,13 @@ public class ArticleDB {
 
 		return conn;
 	}
-
-	public ArrayList<Article> getArticleList(String sql) {
+	
+	
+public ArrayList<Reply> getReplyList(String sql) {
 		
 		Connection conn = getConnection();
 
-		ArrayList<Article> articleList = new ArrayList<>();
+		ArrayList<Reply> replyList = new ArrayList<>();
 
 		try {
 			Statement stmt = conn.createStatement();
@@ -38,13 +39,13 @@ public class ArticleDB {
 
 			while (rs.next()) {
 				int idx = rs.getInt("idx");
-				String title = rs.getString("title");
+				int parentIdx = rs.getInt("parentIdx");
 				String body = rs.getString("body");
 				String nickname = rs.getString("nickname");
 				String regDate = rs.getString("regDate");
 
-				Article addr = new Article(idx, title, body, nickname, regDate);
-				articleList.add(addr);
+				Reply reply = new Reply(idx, parentIdx, body, nickname, regDate);
+				replyList.add(reply);
 			}
 
 		} catch (SQLException e) {
@@ -52,29 +53,7 @@ public class ArticleDB {
 			e.printStackTrace();
 		}
 
-		return articleList;
-	}
-
-	public ArrayList<Article> getAllArticles() {
-		String sql = "SELECT * FROM article";
-		ArrayList<Article> articles = getArticleList(sql);
-		
-		return articles;
-		
-	}
-	
-	public Article getArticleByIdx(int idx) {
-		Article article = null;
-		
-		String sql = String.format("SELECT * FROM article WHERE idx = %d", idx);		
-		ArrayList<Article> articles = getArticleList(sql);
-		
-		if(articles.size() > 0) {
-			article = articles.get(0); 
-		}
-		
-		return article;
-		
+		return replyList;
 	}
 	
 	public void updateQuery(String sql) {
@@ -90,22 +69,17 @@ public class ArticleDB {
 		}
 	}
 	
-	public void insertArticle(String title, String body, String nickname) {
+	public void insertReply(int articleIdx, String body, String nickname) {
 		String sql = String.format(
-				"INSERT INTO article SET `title` = '%s', body = '%s', nickname = '%s', regDate = NOW()", title, body,
+				"INSERT INTO articleReply SET parentIdx = %d, `body` = '%s', nickname = '%s', regDate = NOW()", articleIdx, body,
 				nickname);
 		updateQuery(sql);
-	}		
-
-	public void updateArticle(int idx, String title, String body) {
-		String sql = String.format("UPDATE article SET title = '%s', `body` = '%s' WHERE idx = %d", title, body, idx);
-		updateQuery(sql);
+		
 	}
 
-	public void deleteArticle(int idx) {
-		String sql = String.format("DELETE FROM article WHERE idx = %d", idx);
-		updateQuery(sql);
+	public ArrayList<Reply> getRepliesByArticleIdx(int parentIdx) {
+		String sql = String.format("SELECT * FROM articleReply WHERE parentIdx = %d", parentIdx);
+		
+		return getReplyList(sql);
 	}
-
-	
 }

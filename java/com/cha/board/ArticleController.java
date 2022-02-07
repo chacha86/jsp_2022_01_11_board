@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ArticleController extends HttpServlet {
 
 	ArticleDB db = new ArticleDB();
+	ReplyDB rdb = new ReplyDB();
 	
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -63,6 +64,15 @@ public class ArticleController extends HttpServlet {
 			db.deleteArticle(idx);
 			
 			response.sendRedirect("/article/list");			
+			
+		} else if(func.equals("addReply")) {
+			
+			int articleIdx = Integer.parseInt(request.getParameter("articleIdx"));// 게시물 번호
+			String body = request.getParameter("body"); // 내용
+			String nickname = request.getParameter("nickname");// 닉네임
+			
+			rdb.insertReply(articleIdx, body, nickname);
+			response.sendRedirect("/article/detail?idx=" + articleIdx);
 		}
 	}
 	
@@ -75,7 +85,6 @@ public class ArticleController extends HttpServlet {
 			doAdd(request, response);
 			
 		} else if (func.equals("list")) {
-			System.out.println("bb");
 			list(request, response);
 
 		} else if(func.equals("showAddForm")) {
@@ -91,7 +100,11 @@ public class ArticleController extends HttpServlet {
 			int idx = Integer.parseInt(request.getParameter("idx"));
 			
 			Article article = db.getArticleByIdx(idx);
+			ArrayList<Reply> replies = rdb.getRepliesByArticleIdx(idx);
+			
 			request.setAttribute("article", article);
+			request.setAttribute("replies", replies);
+			
 			forward(request, response, "/detail.jsp");
 			
 		} else if(func.equals("showUpdateForm")) {
