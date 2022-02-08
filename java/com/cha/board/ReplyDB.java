@@ -82,4 +82,27 @@ public ArrayList<Reply> getReplyList(String sql) {
 		
 		return getReplyList(sql);
 	}
+
+	public Reply getReplyByIdx(int idx) {
+		Reply reply = null;
+		
+		String sql = String.format("SELECT * FROM articleReply WHERE idx = %d", idx);		
+		ArrayList<Reply> replies = getReplyList(sql);
+		
+		if(replies.size() > 0) {
+			reply = replies.get(0); 
+		}
+		
+		return reply;
+		
+	}
+
+	public void updateReply(int idx, String body) {
+		System.out.println(idx);
+		System.out.println(body);
+		String sql = String.format("UPDATE articleReply  SET `body` = '%s' WHERE idx = %d", body, idx);		
+		updateQuery(sql);		
+		
+	}
+	
 }

@@ -73,6 +73,14 @@ public class ArticleController extends HttpServlet {
 			
 			rdb.insertReply(articleIdx, body, nickname);
 			response.sendRedirect("/article/detail?idx=" + articleIdx);
+			
+		} else if(func.equals("doReplyUpdate")) {
+			
+			int idx = Integer.parseInt(request.getParameter("idx"));
+			String body = request.getParameter("body");
+			int parentIdx = Integer.parseInt(request.getParameter("parentIdx"));
+			rdb.updateReply(idx, body);
+			response.sendRedirect("/article/detail?idx=" + parentIdx);
 		}
 	}
 	
@@ -113,7 +121,16 @@ public class ArticleController extends HttpServlet {
 			Article article = db.getArticleByIdx(idx);		
 			request.setAttribute("article", article);			
 			forward(request, response, "/updateForm.jsp");
-		}
+			
+		} else if(func.equals("showReplyForm")) {
+			
+			int idx = Integer.parseInt(request.getParameter("idx"));
+			
+			Reply reply = rdb.getReplyByIdx(idx);
+			request.setAttribute("reply", reply);
+			
+			forward(request, response, "/replyForm.jsp");
+		} 
 	}
 
 	private void doAdd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

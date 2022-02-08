@@ -46,6 +46,15 @@
             ${ reply.nickname } <br />
             ${ reply.body } <br />
             ${ reply.regDate } <br />
+            <div>
+                <form action="/article/showReplyForm">
+                    <input type="hidden" name="idx" value="${ reply.idx }" />
+                    <input type="submit" value="수정"/>
+                </form>
+                <form>
+                    <input type="submit" value="삭제"/>
+                </form>
+            </div>
         </div>
         <hr>
     </c:forEach>
