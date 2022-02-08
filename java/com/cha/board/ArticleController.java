@@ -69,17 +69,24 @@ public class ArticleController extends HttpServlet {
 			
 			int articleIdx = Integer.parseInt(request.getParameter("articleIdx"));// 게시물 번호
 			String body = request.getParameter("body"); // 내용
-			String nickname = request.getParameter("nickname");// 닉네임
+			int memberIdx = Integer.parseInt(request.getParameter("memberIdx"));// 닉네임
 			
-			rdb.insertReply(articleIdx, body, nickname);
+			rdb.insertReply(articleIdx, body, memberIdx);
 			response.sendRedirect("/article/detail?idx=" + articleIdx);
 			
-		} else if(func.equals("doReplyUpdate")) {
+		} else if(func.equals("doUpdateReply")) {
 			
 			int idx = Integer.parseInt(request.getParameter("idx"));
 			String body = request.getParameter("body");
 			int parentIdx = Integer.parseInt(request.getParameter("parentIdx"));
 			rdb.updateReply(idx, body);
+			response.sendRedirect("/article/detail?idx=" + parentIdx);
+			
+		} else if(func.equals("doDeleteReply")) {
+			
+			int idx = Integer.parseInt(request.getParameter("idx"));
+			int parentIdx = Integer.parseInt(request.getParameter("parentIdx"));
+			rdb.deleteReply(idx);
 			response.sendRedirect("/article/detail?idx=" + parentIdx);
 		}
 	}
@@ -195,3 +202,4 @@ public class ArticleController extends HttpServlet {
 	}
 	
 }
+

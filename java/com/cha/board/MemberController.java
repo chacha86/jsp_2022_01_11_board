@@ -77,6 +77,7 @@ public class MemberController extends HttpServlet {
 				// session 저장소에 저장하도록 한다.
 				HttpSession session = request.getSession();
 				session.setAttribute("loginedUserName", member.getNickname());
+				session.setAttribute("loginedUserIdx", member.getIdx());
 				//session.setAttribute("articleList", articles);
 				
 				//ServletContext application = request.getServletContext();

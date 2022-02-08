@@ -9,7 +9,7 @@
 <body>
 <h1>댓글 수정</h1>
 
-<form action="/article/doReplyUpdate" method="post">
+<form action="/article/doUpdateReply" method="post">
     <input type="hidden" name="idx" value="${ reply.idx }" />
     <input type="hidden" name="parentIdx" value="${ reply.parentIdx }" />
     <input type="hidden" name="nickname" value="${ loginedUserName }" />

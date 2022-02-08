@@ -46,15 +46,20 @@
             ${ reply.nickname } <br />
             ${ reply.body } <br />
             ${ reply.regDate } <br />
-            <div>
-                <form action="/article/showReplyForm">
-                    <input type="hidden" name="idx" value="${ reply.idx }" />
-                    <input type="submit" value="수정"/>
-                </form>
-                <form>
-                    <input type="submit" value="삭제"/>
-                </form>
-            </div>
+            
+            <c:if test="${ reply.memberIdx == loginedUserIdx}">
+                <div>
+                    <form action="/article/showReplyForm" method="get">
+                        <input type="hidden" name="idx" value="${ reply.idx }" />
+                        <input type="submit" value="수정"/>
+                    </form>
+                    <form action="/article/doDeleteReply" method="post">
+                        <input type="hidden" name="idx" value="${ reply.idx }" />
+                        <input type="hidden" name="parentIdx" value="${ reply.parentIdx }" />
+                        <input type="submit" value="삭제"/>
+                    </form>
+                </div>
+            </c:if>
         </div>
         <hr>
     </c:forEach>
@@ -64,7 +69,7 @@
             ${ loginedUserName }<br />
             <input type="text" name="body" placeholder="댓글을 남겨보세요" />
             <input type="hidden" name="articleIdx" value="${ article.idx }" />
-            <input type="hidden" name="nickname" value="${ loginedUserName }" />
+            <input type="hidden" name="memberIdx" value="${ loginedUserIdx }" />
             <input type="submit" value="등록" />
         </form>
     </div>

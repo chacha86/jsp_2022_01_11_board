@@ -41,10 +41,11 @@ public ArrayList<Reply> getReplyList(String sql) {
 				int idx = rs.getInt("idx");
 				int parentIdx = rs.getInt("parentIdx");
 				String body = rs.getString("body");
-				String nickname = rs.getString("nickname");
+				int memberIdx = rs.getInt("memberIdx");
 				String regDate = rs.getString("regDate");
+				String nickname = rs.getString("nickname");
 
-				Reply reply = new Reply(idx, parentIdx, body, nickname, regDate);
+				Reply reply = new Reply(idx, parentIdx, body, memberIdx, nickname, regDate);
 				replyList.add(reply);
 			}
 
@@ -69,16 +70,16 @@ public ArrayList<Reply> getReplyList(String sql) {
 		}
 	}
 	
-	public void insertReply(int articleIdx, String body, String nickname) {
+	public void insertReply(int articleIdx, String body, int memberIdx) {
 		String sql = String.format(
-				"INSERT INTO articleReply SET parentIdx = %d, `body` = '%s', nickname = '%s', regDate = NOW()", articleIdx, body,
-				nickname);
+				"INSERT INTO articleReply SET parentIdx = %d, `body` = '%s', memberIdx = '%d', regDate = NOW()", articleIdx, body,
+				memberIdx);
 		updateQuery(sql);
 		
 	}
 
 	public ArrayList<Reply> getRepliesByArticleIdx(int parentIdx) {
-		String sql = String.format("SELECT * FROM articleReply WHERE parentIdx = %d", parentIdx);
+		String sql = String.format("SELECT ar.*, m.nickname FROM articleReply ar INNER JOIN `member` m ON ar.memberIdx = m.idx WHERE parentIdx = %d", parentIdx);
 		
 		return getReplyList(sql);
 	}
@@ -86,7 +87,7 @@ public ArrayList<Reply> getReplyList(String sql) {
 	public Reply getReplyByIdx(int idx) {
 		Reply reply = null;
 		
-		String sql = String.format("SELECT * FROM articleReply WHERE idx = %d", idx);		
+		String sql = String.format("SELECT ar.*, m.nickname FROM articleReply ar INNER JOIN `member` m ON ar.memberIdx = m.idx WHERE ar.idx = %d", idx);		
 		ArrayList<Reply> replies = getReplyList(sql);
 		
 		if(replies.size() > 0) {
@@ -98,11 +99,15 @@ public ArrayList<Reply> getReplyList(String sql) {
 	}
 
 	public void updateReply(int idx, String body) {
-		System.out.println(idx);
-		System.out.println(body);
 		String sql = String.format("UPDATE articleReply  SET `body` = '%s' WHERE idx = %d", body, idx);		
 		updateQuery(sql);		
 		
+	}
+
+
+	public void deleteReply(int idx) {
+		String sql = String.format("DELETE FROM articleReply WHERE idx = %d", idx);
+		updateQuery(sql);
 	}
 	
 }
