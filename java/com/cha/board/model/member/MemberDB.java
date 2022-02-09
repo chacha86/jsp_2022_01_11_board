@@ -1,4 +1,4 @@
-package com.cha.board;
+package com.cha.board.model.member;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -1,59 +1,50 @@
-package com.cha.board;
+package com.cha.board.model.article;
 
-public class Member {
+public class Article {
 	private int idx;
-	private String loginId;
-	private String loginPw;
+	private String title;
+	private String body;
 	private String nickname;
 	private String regDate;
 	
-	public Member(int idx, String loginId, String loginPw, String nickname, String regDate) {
+	public Article(int idx, String title, String body, String nickname, String regDate) {
 		super();
 		this.idx = idx;
-		this.loginId = loginId;
-		this.loginPw = loginPw;
+		this.title = title;
+		this.body = body;
 		this.nickname = nickname;
-		this.regDate = regDate;
-	}
-
-	public int getIdx() {
-		return idx;
-	}
-
-	public void setIdx(int idx) {
-		this.idx = idx;
-	}
-
-	public String getLoginId() {
-		return loginId;
-	}
-
-	public void setLoginId(String loginId) {
-		this.loginId = loginId;
-	}
-
-	public String getLoginPw() {
-		return loginPw;
-	}
-
-	public void setLoginPw(String loginPw) {
-		this.loginPw = loginPw;
-	}
-
-	public String getNickname() {
-		return nickname;
-	}
-
-	public void setNickname(String nickname) {
-		this.nickname = nickname;
-	}
-
-	public String getRegDate() {
-		return regDate;
-	}
-
-	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
 	
+	public int getIdx() {
+		return idx;
+	}
+	public void setIdx(int idx) {
+		this.idx = idx;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getBody() {
+		return body;
+	}
+	public void setBody(String body) {
+		this.body = body;
+	}
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+	public String getRegDate() {
+		return regDate;
+	}
+	public void setRegDate(String regDate) {
+		this.regDate = regDate;
+	}
+
 }

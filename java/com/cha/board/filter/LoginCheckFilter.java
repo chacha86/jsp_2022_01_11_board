@@ -1,4 +1,4 @@
-package com.cha.board;
+package com.cha.board.filter;
 
 import java.io.IOException;
 
