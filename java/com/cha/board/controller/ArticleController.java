@@ -209,12 +209,13 @@ public class ArticleController extends HttpServlet {
 			currNo = Integer.parseInt(request.getParameter("currNo"));
 		}
 		
-		ArrayList<Article> articleList = db.getAllArticles();
+		//ArrayList<Article> articleList = db.getAllArticles();
 		
-		//ArrayList<Article> articleList = db.getArticlesForPage(currNo);
 		Pagination pagination = new Pagination();
 		
 		pagination.setCurrPageNo(currNo);
+		ArrayList<Article> articleList = db.getArticlesForPage(pagination);
+		
 		System.out.println(pagination.getCurrPageNo());
 		System.out.println(pagination.getCurrPageBlockStartNo());
 		System.out.println(pagination.getCurrPageBlockEndNo());

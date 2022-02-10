@@ -24,9 +24,10 @@
         <hr>
     </c:forEach>
     <hr>
-    <a href="http://localhost:9000/article/showAddForm">글쓰기</a>
+    <a href="/article/showAddForm">글쓰기</a>
     <hr>
     <div>
+        <a href="/article/list?currNo=${ pagination.currPageBlockStartNo - 1 }">이전</a>
         <c:forEach var="no" begin="${ pagination.currPageBlockStartNo }" end="${ pagination.currPageBlockEndNo }">
             <c:choose>
                 <c:when test="${ no == pagination.currPageNo }">
@@ -37,6 +38,7 @@
                 </c:otherwise>
             </c:choose>
         </c:forEach>
+        <a href="/article/list?currNo=${ pagination.currPageBlockEndNo + 1 }">다음</a>
     </div>
 </body>
 </html>

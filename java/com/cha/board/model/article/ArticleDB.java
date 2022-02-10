@@ -44,5 +44,10 @@ public class ArticleDB {
 		db.updateQuery(sql);
 	}
 
+	public ArrayList<Article> getArticlesForPage(Pagination pagination) {
+		String sql = String.format("SELECT * FROM article LIMIT %d, %d", pagination.getStartIndex(), pagination.getItemCntPerPage()); 
+		return db.selectList(sql, new ArticleRowMapper());
+	}
+
 	
 }
