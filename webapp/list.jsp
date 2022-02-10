@@ -26,5 +26,17 @@
     <hr>
     <a href="http://localhost:9000/article/showAddForm">글쓰기</a>
     <hr>
+    <div>
+        <c:forEach var="no" begin="${ pagination.currPageBlockStartNo }" end="${ pagination.currPageBlockEndNo }">
+            <c:choose>
+                <c:when test="${ no == pagination.currPageNo }">
+                    <a href="/article/list?currNo=${ no }">[${ no }]</a>
+                </c:when>
+                <c:otherwise>
+                    <a href="/article/list?currNo=${ no }">${ no }</a>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+    </div>
 </body>
 </html>

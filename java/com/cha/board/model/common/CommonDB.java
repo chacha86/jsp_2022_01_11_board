@@ -1,4 +1,4 @@
-package com.cha.board.model.article;
+package com.cha.board.model.common;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.cha.board.model.article.Article;
 import com.cha.board.model.article.ArticleDB;
+import com.cha.board.model.article.Pagination;
 import com.cha.board.model.article.Reply;
 import com.cha.board.model.article.ReplyDB;
 
@@ -201,8 +202,25 @@ public class ArticleController extends HttpServlet {
 	}
 
 	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		int currNo = 1;
+		
+		if( request.getParameter("currNo") != null) {
+			currNo = Integer.parseInt(request.getParameter("currNo"));
+		}
+		
 		ArrayList<Article> articleList = db.getAllArticles();
+		
+		//ArrayList<Article> articleList = db.getArticlesForPage(currNo);
+		Pagination pagination = new Pagination();
+		
+		pagination.setCurrPageNo(currNo);
+		System.out.println(pagination.getCurrPageNo());
+		System.out.println(pagination.getCurrPageBlockStartNo());
+		System.out.println(pagination.getCurrPageBlockEndNo());
+		
 		request.setAttribute("articleList", articleList);
+		request.setAttribute("pagination", pagination);
 
 		// 경로 -> url
 
@@ -235,6 +253,7 @@ public class ArticleController extends HttpServlet {
 	private void forward(HttpServletRequest request, HttpServletResponse response, String path) {
 
 		try {
+			
 			RequestDispatcher rd = request.getRequestDispatcher(path);
 			rd.forward(request, response);
 

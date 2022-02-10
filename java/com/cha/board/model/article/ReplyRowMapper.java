@@ -3,6 +3,8 @@ package com.cha.board.model.article;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.cha.board.model.common.RowMapper;
+
 public class ReplyRowMapper implements RowMapper<Reply> {
 
 	@Override

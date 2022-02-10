@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.cha.board.model.common.CommonDB;
+
 public class ArticleDB {
 	
 	CommonDB db = new CommonDB();

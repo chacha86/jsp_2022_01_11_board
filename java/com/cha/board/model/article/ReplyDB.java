@@ -2,6 +2,8 @@ package com.cha.board.model.article;
 
 import java.util.ArrayList;
 
+import com.cha.board.model.common.CommonDB;
+
 public class ReplyDB {
 	
 	CommonDB db = new CommonDB();
